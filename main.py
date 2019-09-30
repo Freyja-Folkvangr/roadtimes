@@ -72,7 +72,15 @@ class Trip:
 
     # Prints the worst estimated time for a subtrip
     def get_edge_worst_time(self, start, end):
-        return None
+        if start == end:
+            return 0
+        edge = self.graph.get_edge(start, end)
+        if edge:
+            return 60 * edge.cost / 30
+        else:
+            # If there is no route in previous trips
+            new = self.graph.dijkstra(start, end)
+            return 60 * new[1] / 30
 
     # Prints the avg speed of a subtrip from a to b
     def get_edge_speed(self, start, end):
