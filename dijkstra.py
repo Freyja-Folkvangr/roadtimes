@@ -96,8 +96,12 @@ class Graph:
             current_vertex = previous_vertices[current_vertex]
         if path:
             path.appendleft(current_vertex)
-        # returns tuple of route, total subtrip_distance
-        return path, distances[path[len(path) - 1]]
+        try:
+            # returns tuple of route, total subtrip_distance
+            return path, distances[path[len(path) - 1]]
+        except(IndexError):
+            print('ERROR IN DIJKSTRA FROM {} TO {}'.format(source, dest), distances)
+            return path, 0
 # TEST
 # graph = Graph([
 #     ("a", "b", 7),  ("a", "c", 9),  ("a", "f", 14), ("b", "c", 10),
