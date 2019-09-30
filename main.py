@@ -92,7 +92,7 @@ class Trip:
 
 
 # Program START
-for file in range(1, 4):
+for file in range(1, 15):
     try:
         with open('./data/{}.in'.format(file), 'r') as f:
             routes = []
@@ -129,9 +129,13 @@ for file in range(1, 4):
         for item in scheduled_queries:
             s = item[0]
             d = item[1]
-            print(s, d, trips[0].get_edge_best_time(s, d), trips[0].get_edge_worst_time(s, d))
 
             #Search the history of trips
+            for trip in trips:
+                if trip.get_edge_best_time(s, d) != None and trip.get_edge_worst_time(s, d):
+                    print(s, d, trip.get_edge_best_time(s, d), trip.get_edge_worst_time(s, d))
+                    break
+
             #print(s, d, trips[0].get_edge_best_time(s, d), trips[0].get_edge_worst_time(s, d))
         # print(routes)
         # print(past_deliveries)
