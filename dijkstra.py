@@ -70,6 +70,8 @@ class Graph:
         return neighbours
 
     def dijkstra(self, source, dest):
+        if source == dest:
+            return [], 0
         assert source in self.vertices, 'Such source node doesn\'t exist'
         distances = {vertex: inf for vertex in self.vertices}
         previous_vertices = {
