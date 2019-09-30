@@ -54,7 +54,10 @@ class Trip:
     # Prints the worst estimated time for a trip
     @property
     def worst_time(self):
-        return None
+        times = []
+        for item in self.sub_trips:
+            times.append(self.get_edge_worst_time(item[0], item[1]))
+        return sum(times)
 
     # Prints the best estimated time for a subtrip
     # Important! if you solve the equation 60 * edge.cost / 60, you'd say that best time is equals to
