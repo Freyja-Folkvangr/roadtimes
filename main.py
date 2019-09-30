@@ -60,9 +60,15 @@ class Trip:
     # Important! if you solve the equation 60 * edge.cost / 60, you'd say that best time is equals to
     # edge.cost, but after modeling a linear program and apply simplex to it, the best speed won't be 60
     def get_edge_best_time(self, start, end):
+        if start == end:
+            return 0
         edge = self.graph.get_edge(start, end)
-        return 60 * edge.cost / 60
+        if edge:
+            return 60 * edge.cost / 60
+        else:
             # If there is no route in previous trips
+            new = self.graph.dijkstra(start, end)
+            return 60 * new[1] / 60
 
     # Prints the worst estimated time for a subtrip
     def get_edge_worst_time(self, start, end):
