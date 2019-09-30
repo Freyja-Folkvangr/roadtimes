@@ -17,7 +17,7 @@ def create_graph(matrix):
             j += 1
         i += 1
         j = 0
-    # this prints the nodes
+    # this prints the nodes created for dijkstra
     # print(graph)
     return dijkstra.Graph(graph)
 
@@ -37,10 +37,13 @@ class Trip:
     def total_distance(self):
         return self.graph.dijkstra(self.s, self.d)[1]
 
+    # If we go from 0 to 2, but there is no route, we're forced to go to another city.
+    # This property returns the full detailed path
     @property
     def sub_trips(self):
         return [[self.path[i], self.path[i + 1]] for i in range(0, len(self.path) - 1)]
 
+    # Returns the best estimated time for a trip
     @property
     def best_time(self):
         times = []
@@ -48,17 +51,24 @@ class Trip:
             times.append(self.get_edge_best_time(item[0], item[1]))
         return sum(times)
 
+    # Prints the worst estimated time for a trip
     @property
     def worst_time(self):
         return None
 
+    # Prints the best estimated time for a subtrip
+    # Important! if you solve the equation 60 * edge.cost / 60, you'd say that best time is equals to
+    # edge.cost, but after modeling a linear program and apply simplex to it, the best speed won't be 60
     def get_edge_best_time(self, start, end):
         edge = self.graph.get_edge(start, end)
         return 60 * edge.cost / 60
+            # If there is no route in previous trips
 
+    # Prints the worst estimated time for a subtrip
     def get_edge_worst_time(self, start, end):
         return None
 
+    # Prints the avg speed of a subtrip from a to b
     def get_edge_speed(self, start, end):
         edge = self.graph.get_edge(start, end)
         return 60 * edge.cost / (self.total_time * (1 - edge.cost / self.total_distance))
@@ -104,6 +114,9 @@ for file in range(1, 4):
             d = item[1]
             print(s, d, trips[0].get_edge_best_time(s, d), trips[0].get_edge_worst_time(s, d))
 
+            #Search the history of trips
+            #print(s, d, trips[0].get_edge_best_time(s, d), trips[0].get_edge_worst_time(s, d))
+        # print(routes)
         # print(past_deliveries)
         # print(the_graph.dijkstra('0', '2'))
 
